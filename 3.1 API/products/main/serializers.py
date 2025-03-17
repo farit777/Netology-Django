@@ -1,16 +1,21 @@
 from rest_framework import serializers
-
+from .models import Product, Review
 
 class ReviewSerializer(serializers.ModelSerializer):
-    # реализуйте все поля
-    pass
+    class Meta:
+        model = Review
+        fields = ['text', 'mark']
 
 
 class ProductListSerializer(serializers.Serializer):
-    # реализуйте поля title и price
-    pass
+    class Meta:
+        model = Product
+        fields = ['title', 'price']
 
 
 class ProductDetailsSerializer(serializers.ModelSerializer):
-    # реализуйте поля title, description, price и reviews (список отзывов к товару)
-    pass
+    reviews = ReviewSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Product
+        fields = ['title', 'description', 'price', 'reviews']
